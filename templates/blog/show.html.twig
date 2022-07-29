@@ -7,7 +7,7 @@
         <div class="metadata">Ecrit le {{article.createdAt | date('d/m/Y')}} à {{article.createdAt | date('H:i')}} dans la catégorie "{{ article.category.title }}"</div>
         <div class="content">
             <img src="{{ article.image }}" alt="">
-            {{ article.content | raw}}
+            <div>{{ article.content | raw}}</div>
         </div>
         <section id="commentaires">
             <div class="comment">

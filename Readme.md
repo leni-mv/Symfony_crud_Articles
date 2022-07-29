@@ -6,6 +6,8 @@ Ce projet est un projet vitrine dans le but d'avoir un code propre et cohérent 
 - Relations entre entités : https://www.youtube.com/watch?v=e5udJTjbYzw&list=PLpUhHhXoxrjdQLodxlHFY09_9XzqdPBW8&index=3
 - Authentification : https://www.youtube.com/watch?v=_GjHWa9hQic&list=PLpUhHhXoxrjdQLodxlHFY09_9XzqdPBW8&index=4
 
+Certaines fonctionnalités n'étant plus au goût du jour elles ont était remplacée par les pratiques actuelle recommandée dans la documentation officielle de symfony
+
 ## Environnement
 
 - php 7.4.16
@@ -117,6 +119,31 @@ Github commandes :
     - Pour qu'elle fonctionne correctement on lui ajoute les attributs : `'class' => Category::class,` pour la lier à la bonne classe d'entité et `'choice_label' => 'title',` pour que symfony sache quel élément afficher dans les attributs de catégorie
 
 ### Authentification
+
+- **Sécurité**
+    - se composant va servir durant toute cette partie :
+    - https://symfony.com/doc/5.4/security.html
+    - **package > config > security.yalm**
+    - `composer require symfony/security-bundle`
+- Création de l'entité user : email, passxord, username
+- Création d'un formulaire d'inscription
+- Fichiers créer :
+    - User.php
+    - RegistrationType.php
+    - SecurityController.php,
+    - registration.html.twig
+- **Cryptage du password** :
+    - Dans SecurityController ajout de `use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;` et encryptage du mdp avant persist et flush du new user
+    - Looker doc : lignes add dans **config > packages > security.yaml**
+    - Dans entity User on doit implémente UserInterface et ses fonctions dont userRole qui est à migrer en bdd (make:migration et d:m:m)
+- **email unique pour chaque user** :
+    - dans User.php ajouter `use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;`
+    - Au dessus de la classe user `@UniqueEntity(fields = {"email"}, message = "L'email que vous avez indiqué est déjà utilisé.")`
+- **Se connecter** :
+    - Création de la fonction login dans le controller qui renvoi à la page de succès d'inscription : **login.html.twig**
+    - https://symfony.com/doc/5.4/security.html#loading-the-user-the-user-provider
+
+    - https://symfony.com/doc/5.4/security.html#form-login
 
 
 
