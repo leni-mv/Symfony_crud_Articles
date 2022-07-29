@@ -97,3 +97,33 @@ Github commandes :
     - Autant de possibilités que ce qui est présenté dans la doc
     - Pour aller plus loin {{ form_error(formArticle.title)}} permet de styliser les différentes erreurs
 
+### Relation entre les entités
+
+- ``php bin/console make:entity`` > `Category` > OneToMany avec entité Article
+- `php bin/console make:migration` pour vérifier que les fichiers sont conforme avant migration
+- On supprime tous les articles existants en bdd
+- `php bin/console doctrine:migrations:migrate`
+- De manière similaire on va créer et lié l'entité Comment en ManyToOne à Article
+- **Faker**:
+    - Ou comment créer un faux jeu de données
+    - Documentation : https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#faker & https://fakerphp.github.io/
+    - `composer require fakerphp/faker` | `composer require fakerphp/faker --dev`
+    - Dans AppFixtures.php code modifié pour créer 3catégories avec > quelques articles avec > quelques commentaires > flush
+    - `php bin/console doctrine:fixtures:load` > yes purger db
+    - On a de nouveau article avec catégorie et commentaires affiliés
+- **Category dans le formulaire de création** :
+    - Pour que la category soit sélectionnable dans la création d'article on va dans **ArticleType.php**
+    - Dans le builder on ajoute `->add(category', EntityType::class)` : L'entityType est un type field qui permet de relier deux entitée liée en bdd dans le formulaire. Va créer un dropdown pour sélectionnée la catégorie à laquelle sera reliée l'article
+    - Pour qu'elle fonctionne correctement on lui ajoute les attributs : `'class' => Category::class,` pour la lier à la bonne classe d'entité et `'choice_label' => 'title',` pour que symfony sache quel élément afficher dans les attributs de catégorie
+
+### Authentification
+
+
+
+
+
+
+## Point à voir plus tard
+
+- Définir le timezone
+- Quelles différence entre faker et fixtures ?
